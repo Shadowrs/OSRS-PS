@@ -4,16 +4,11 @@ import org.arcanium.game.content.activity.ActivityManager;
 import org.arcanium.game.content.activity.ActivityPlugin;
 import org.arcanium.game.content.dialogue.DialoguePlugin;
 import org.arcanium.game.system.SystemLogger;
-import org.arcanium.game.world.GameWorld;
+import plugin.PluginRepo;
 
 import java.io.File;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 
 /**
  * Represents a class used to handle the loading of all plugins.
@@ -40,7 +35,31 @@ public final class PluginManager {
             loadLocal(new File("plugin/"));
             loadedPlugins.clear();
             loadedPlugins = null;
-            SystemLogger.log("Initialized " + pluginCount + " Plugins...");
+            PluginRepo.init();
+            for (Plugin p : PluginRepo.combatPluginRepo) {
+                definePlugin(p);
+            }
+            SystemLogger.log("Initialized " + PluginRepo.combatPluginRepo.size() + " Combat Plugins...");
+            for (Plugin p : PluginRepo.dialoguePluginRepo) {
+                definePlugin(p);
+            }
+            SystemLogger.log("Initialized " + PluginRepo.dialoguePluginRepo.size() + " Dialogue Plugins...");
+            for (Plugin p : PluginRepo.interactionPluginRepo) {
+                definePlugin(p);
+            }
+            SystemLogger.log("Initialized " + PluginRepo.interactionPluginRepo.size() + " Interaction Plugins...");
+            for (Plugin p : PluginRepo.NPCPluginRepo) {
+                definePlugin(p);
+            }
+            SystemLogger.log("Initialized " + PluginRepo.NPCPluginRepo.size() + " NPC Plugins...");
+            for (Plugin p : PluginRepo.skillPluginRepo) {
+                definePlugin(p);
+            }
+            SystemLogger.log("Initialized " + PluginRepo.skillPluginRepo.size() + " Skill Plugins...");
+            for (Plugin p : PluginRepo.tutorialPluginRepo) {
+                definePlugin(p);
+            }
+            SystemLogger.log("Initialized " + PluginRepo.tutorialPluginRepo.size() + " Tutorial Plugins...");
         } catch (Throwable t) {
             SystemLogger.log("Error initializing Plugins...");
         }
@@ -54,59 +73,7 @@ public final class PluginManager {
      */
     @SuppressWarnings("rawtypes")
     public static void loadLocal(File directory) throws Throwable {
-        final URL[] url = new URL[]{directory.toURI().toURL(), null};
-        URLClassLoader loader;
-        for (File file : directory.listFiles()) {
-            if (file.getName().equals(".DS_Store")) {
-                continue;
-            }
-            if (GameWorld.isEconomyWorld() && file.getPath().startsWith("plugin/spawn")) {
-                continue;
-            }
-            if (file.isDirectory()) {
-                loadLocal(file);
-                continue;
-            }
-            String fileName = file.getName().replace(".jar", "").replace(".class", "");
-            if (loadedPlugins.contains(fileName)) {
-                System.err.println("Duplicate plugin - " + fileName);
-            }
-            loadedPlugins.add(fileName);
-            url[1] = file.toURI().toURL();
-            loader = new URLClassLoader(url);
-            JarFile jar = new JarFile(file);
-            Enumeration<JarEntry> entries = jar.entries();
-            boolean loaded = false;
-            while (entries.hasMoreElements()) {
-                JarEntry entry = entries.nextElement();
-                if (entry.getName().endsWith(fileName + ".class")) {
-                    StringBuilder sb = new StringBuilder();
-                    for (String path : entry.getName().split("/")) {
-                        if (sb.length() != 0) {
-                            sb.append(".");
-                        }
-                        sb.append(path);
-                        if (path.endsWith(".class")) {
-                            sb.setLength(sb.length() - 6);
-                            break;
-                        }
-                    }
-                    try {
-                        final Plugin plugin = (Plugin) loader.loadClass(sb.toString()).newInstance();
-                        definePlugin(plugin);
-                        loaded = true;
-                    } catch (Throwable t) {
-                        System.err.println("Error for class at " + entry.getName());
-                        t.printStackTrace();
-                    }
-                }
-            }
-            if (!loaded) {
-                System.err.println("Failed to load plugin " + fileName + "!");
-            }
-            // loader.close();
-            jar.close();
-        }
+
     }
 
     /**

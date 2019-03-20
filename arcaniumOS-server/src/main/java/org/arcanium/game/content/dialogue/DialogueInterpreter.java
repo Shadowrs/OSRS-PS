@@ -204,7 +204,8 @@ public final class DialogueInterpreter {
      */
     public static void add(int id, DialoguePlugin plugin) {
         if (PLUGINS.containsKey(id)) {
-            throw new IllegalArgumentException("Dialogue " + (id & 0xFFFF) + " is already in use - [old=" + PLUGINS.get(id).getClass().getSimpleName() + ", new=" + plugin.getClass().getSimpleName() + "]!");
+            System.out.println("[Warning] Dialogue " + (id & 0xFFFF) + " is already in use - [old=" + PLUGINS.get(id).getClass().getSimpleName() + ", new=" + plugin.getClass().getSimpleName() + "]!");
+            return;
         }
         PLUGINS.put(id, plugin);
     }

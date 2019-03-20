@@ -109,10 +109,7 @@ public final class SQLManager {
         try {
             connection.close();
         } catch (Exception e) {
-            /*
-            TODO: Fix this
-             */
-            //e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
