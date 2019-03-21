@@ -1,5 +1,5 @@
 # OSRS-PS
-[![Discord](https://img.shields.io/discord/373382904769675265.svg)](https://discord.gg/HN5gf3m)
+[![Discord](https://img.shields.io/discord/373382904769675265.svg)](https://discord.gg/HN5gf3m) [![Build Status](https://travis-ci.org/zeruth/OSRS-PS.svg?branch=master)](https://travis-ci.org/zeruth/OSRS-PS)
 
 
 OSRS-PS is an open source Old School Runescape Revision 176 private server / RuneLite Client.
