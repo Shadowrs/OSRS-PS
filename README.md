@@ -1,4 +1,5 @@
 # OSRS-PS
+[![Discord](https://img.shields.io/discord/373382904769675265.svg)](https://discord.gg/HN5gf3m) [![Build Status](https://travis-ci.org/zeruth/OSRS-PS.svg?branch=master)](https://travis-ci.org/zeruth/OSRS-PS)
 
 
 OSRS-PS is an open source Old School Runescape Revision 176 private server / RuneLite Client.
@@ -20,7 +21,7 @@ OSRS-PS is an open source Old School Runescape Revision 176 private server / Run
   Inside the workbench, in the navigator pane, at the bottom select schemas
   In that pane, right click > Create Schema
   
-  You can name the schema whatecer you want, but be sure to make it memorable, you need the name for the servers configuration. After you are done, right click the schema you just made and set it as default.
+  You can name the schema whatever you want, but be sure to make it memorable, you need the name for the servers configuration. After you are done, right click the schema you just made and set it as default.
   
   Go to File > Open SQL Script
   
